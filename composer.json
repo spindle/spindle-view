@@ -1,0 +1,22 @@
+{
+    "name": "spindle/view",
+    "description": "simple layout renderer",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hiraku NAKANO",
+            "email": "hiraku@tojiru.net"
+        }
+    ],
+    "require": {
+
+    },
+    "autoload": {
+        "files": ["src/View.php"]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "apigen/apigen": "*",
+        "pdepend/pdepend": "*"
+    }
+}

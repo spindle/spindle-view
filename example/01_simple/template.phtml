@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+ <meta charset="UTF-8">
+ <title><?php echo $this->title ?></title>
+</head>
+<body>
+ <h1>example 1</h1>
+ <ul>
+<?php foreach ($this->data as $val): ?>
+  <li><?php echo $val ?></li>
+<?php endforeach ?>
+ </ul>
+</body>
+</html>
