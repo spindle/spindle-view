@@ -1,8 +1,7 @@
 <?php
 /**
  * spindle/view
- *
- * @license CC0 (Public Domain) see LICENSE.md
+ * @license CC0 (Public Domain) see LICENSE
  */
 namespace Spindle;
 
@@ -12,8 +11,6 @@ namespace Spindle;
  */
 class View implements \IteratorAggregate
 {
-    static $extract = false;
-
     protected
         $_storage
     ,   $_basePath
@@ -92,6 +89,7 @@ class View implements \IteratorAggregate
 
     function render()
     {
+        extract((array)$this->_storage, \EXTR_SKIP);
         ob_start();
         include $this->_basePath . \DIRECTORY_SEPARATOR . $this->_fileName;
         $html = ob_get_clean();

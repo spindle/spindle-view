@@ -1,7 +1,7 @@
 {
     "name": "spindle/view",
     "description": "simple layout renderer",
-    "license": "MIT",
+    "license": "CC0-1.0",
     "authors": [
         {
             "name": "Hiraku NAKANO",
