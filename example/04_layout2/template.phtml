@@ -1,0 +1,13 @@
+<?php
+$this->setLayout('main.phtml');
+$this->prepend('javascripts', array(
+    'template1.js',
+    'template2.js',
+));
+?>
+  <h1><?php echo $title ?></h1>
+  <ul>
+<?php foreach ($data as $i): ?>
+   <li><?php echo $i ?></li>
+<?php endforeach ?>
+  </ul>

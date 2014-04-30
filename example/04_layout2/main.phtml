@@ -1,0 +1,10 @@
+<?php
+$this->setLayout('layout.phtml');
+$this->prepend('javascripts', array(
+    'main1.js',
+    'main2.js',
+));
+?>
+ <div class="main">
+<?php echo $this->content() ?>
+ </div>
