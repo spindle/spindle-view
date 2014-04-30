@@ -1,0 +1,27 @@
+<?php
+$this->append('stylesheets', array(
+    'layout1.css',
+    'layout2.css',
+));
+
+$this->prepend('javascripts', array(
+    'layout1.js',
+    'layout2.js',
+));
+?>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+ <meta charset="UTF-8">
+ <title><?php echo $title ?></title>
+<?php foreach ($this->stylesheets as $css): ?>
+ <link rel="stylesheet" href="<?php echo $css?>">
+<?php endforeach ?>
+</head>
+<body>
+<?php echo $this->content() ?>
+<?php foreach ($this->javascripts as $js): ?>
+ <script src="<?php echo $js?>"></script>
+<?php endforeach ?>
+</body>
+</html>

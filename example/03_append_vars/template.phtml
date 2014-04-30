@@ -1,0 +1,19 @@
+<?php
+$this->setLayout('layout.phtml');
+$this->append('stylesheets', array(
+    'template1.css',
+    'template2.css',
+));
+$this->prepend('javascripts', array(
+    'template1.js',
+    'template2.js',
+));
+?>
+ <h1><?php echo $title ?></h1>
+ <div class="main">
+  <ul>
+<?php foreach ($data as $i): ?>
+   <li><?php echo $i ?></li>
+<?php endforeach ?>
+  </ul>
+ </div>
