@@ -7,4 +7,4 @@ License
 -------------------------
 
 CC0-1.0 (Public Domain)
-LICENSEファイルを参照のこと
+https://creativecommons.org/publicdomain/zero/1.0/

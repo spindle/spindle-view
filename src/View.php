@@ -1,14 +1,10 @@
 <?php
 /**
  * spindle/view
- * @license CC0 (Public Domain) see LICENSE
+ * @license CC0-1.0 (Public Domain)
  */
 namespace Spindle;
 
-/**
- *
- *
- */
 class View implements \IteratorAggregate
 {
     protected
@@ -48,7 +44,11 @@ class View implements \IteratorAggregate
 
     function __toString()
     {
-        return $this->_basePath . \DIRECTORY_SEPARATOR . $this->_fileName;
+        if ($this->_basePath) {
+            return $this->_basePath . \DIRECTORY_SEPARATOR . $this->_fileName;
+        } else {
+            return $this->_fileName;
+        }
     }
 
     function toArray()
@@ -89,9 +89,11 @@ class View implements \IteratorAggregate
 
     function render()
     {
-        extract((array)$this->_storage, \EXTR_SKIP);
+        foreach ($this->_storage as ${"\x00key"} => ${"\x00val"}) {
+            $${"\x00key"} = ${"\x00val"};
+        }
         ob_start();
-        include $this->_basePath . \DIRECTORY_SEPARATOR . $this->_fileName;
+        include (string)$this;
         $html = ob_get_clean();
 
         if ($this->_layoutFileName) {

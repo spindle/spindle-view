@@ -1,0 +1,9 @@
+<?php $this->setLayout('layout.phtml') ?>
+ <h1><?php echo $title ?></h1>
+ <div class="main">
+  <ul>
+<?php foreach ($data as $i): ?>
+   <li><?php echo $i ?></li>
+<?php endforeach ?>
+  </ul>
+ </div>
