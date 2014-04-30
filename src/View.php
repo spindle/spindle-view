@@ -5,6 +5,8 @@
  */
 namespace Spindle;
 
+use ArrayObject;
+
 class View implements \IteratorAggregate
 {
     protected
@@ -15,9 +17,9 @@ class View implements \IteratorAggregate
     ,   $_content = ''
     ;
 
-    function __construct($fileName, $basePath = '')
+    function __construct($fileName, $basePath='', ArrayObject $arr=null)
     {
-        $this->_storage = new \ArrayObject(array(), \ArrayObject::ARRAY_AS_PROPS);
+        $this->_storage = $arr ?: new ArrayObject(array(), ArrayObject::ARRAY_AS_PROPS);
         $this->_fileName = trim($fileName, \DIRECTORY_SEPARATOR);
         $this->_basePath = rtrim($basePath, \DIRECTORY_SEPARATOR);
     }
@@ -97,8 +99,11 @@ class View implements \IteratorAggregate
         $html = ob_get_clean();
 
         if ($this->_layoutFileName) {
-            $layout = new static($this->_layoutFileName, $this->_basePath);
-            $layout->_storage = $this->_storage;
+            $layout = new static(
+                $this->_layoutFileName,
+                $this->_basePath,
+                $this->_storage
+            );
             $layout->setContent($html);
             return $layout->render();
         } else {
@@ -128,8 +133,11 @@ class View implements \IteratorAggregate
 
     function partial($partialFileName)
     {
-        $partial = new static($partialFileName, $this->_basePath);
-        $partial->_storage = $this->_storage;
+        $partial = new static(
+            $partialFileName,
+            $this->_basePath,
+            $this->_storage
+        );
         return $partial->render();
     }
 }
