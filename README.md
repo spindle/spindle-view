@@ -1,6 +1,12 @@
 spindle/view
 =========================
 
+[![Build Status](https://travis-ci.org/spindle/spindle-view.svg?branch=master)](https://travis-ci.org/spindle/spindle-view)
+[![Latest Stable Version](https://poser.pugx.org/spindle/view/v/stable.png)](https://packagist.org/packages/spindle/view)
+[![Total Downloads](https://poser.pugx.org/spindle/view/downloads.png)](https://packagist.org/packages/spindle/view)
+[![Latest Unstable Version](https://poser.pugx.org/spindle/view/v/unstable.png)](https://packagist.org/packages/spindle/view)
+[![License](https://poser.pugx.org/spindle/view/license.png)](https://packagist.org/packages/spindle/view)
+
 素のPHPをテンプレートエンジンとして使う際、レイアウト構造を実現するライブラリです。
 一つのクラスだけの非常に小さなライブラリですが、"継承"機能をほぼ網羅しています。
 
