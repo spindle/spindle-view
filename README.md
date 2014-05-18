@@ -2,6 +2,8 @@ spindle/view
 =========================
 
 [![Build Status](https://travis-ci.org/spindle/spindle-view.svg?branch=master)](https://travis-ci.org/spindle/spindle-view)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/spindle/spindle-view/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/spindle/spindle-view/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/spindle/spindle-view/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/spindle/spindle-view/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/spindle/view/v/stable.png)](https://packagist.org/packages/spindle/view)
 [![Total Downloads](https://poser.pugx.org/spindle/view/downloads.png)](https://packagist.org/packages/spindle/view)
 [![Latest Unstable Version](https://poser.pugx.org/spindle/view/v/unstable.png)](https://packagist.org/packages/spindle/view)
