@@ -4,6 +4,7 @@ imports:
 filter:
     excluded_paths:
         - example/*
+        - tests/*
 
 tools:
     external_code_coverage: true
