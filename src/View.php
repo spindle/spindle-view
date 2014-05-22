@@ -111,21 +111,34 @@ class View implements \IteratorAggregate
      */
     function append($name, $array)
     {
-        $s = $this->_storage;
-        if (isset($s[$name])) {
-            $s[$name] = array_merge((array)$s[$name], (array)$array);
-        } else {
-            $s[$name] = (array)$array;
-        }
+        $this->_merge($name, (array)$array, true);
     }
 
+    /**
+     * @param string $name
+     * @param array $array
+     */
     function prepend($name, $array)
+    {
+        $this->_merge($name, (array)$array, false);
+    }
+
+    /**
+     * @param string $name
+     * @param array $array
+     * @param bool  $append
+     */
+    private function _merge($name, array $array, $append=true)
     {
         $s = $this->_storage;
         if (isset($s[$name])) {
-            $s[$name] = array_merge((array)$array, (array)$s[$name]);
+            if ($append) {
+                $s[$name] = array_merge((array)$s[$name], $array);
+            } else {
+                $s[$name] = array_merge($array, (array)$s[$name]);
+            }
         } else {
-            $s[$name] = (array)$array;
+            $s[$name] = $array;
         }
     }
 
