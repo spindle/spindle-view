@@ -2,16 +2,16 @@ module.exports = (grunt) ->
     grunt.initConfig
         shell:
             phpunit:
-                command: 'php -dopen_basedir= vendor/bin/phpunit'
+                command: 'vendor/bin/phpunit'
                 options: {stdout: true, stderr: true}
 
             apigen:
-                command: 'php -dopen_basedir= vendor/bin/apigen.php'
+                command: 'vendor/bin/apigen.php'
                 options: {stdout: true, stderr: true}
 
             pdepend:
                 command: [
-                    'php -dopen_basedir= vendor/bin/pdepend'
+                    'vendor/bin/pdepend'
                     '--jdepend-chart=builds/pdepend.svg'
                     '--overview-pyramid=builds/pyramid.svg'
                     '--summary-xml=builds/summary.xml'

@@ -17,6 +17,8 @@
     "require-dev": {
         "phpunit/phpunit": "*",
         "apigen/apigen": "*",
-        "pdepend/pdepend": "*"
+        "pdepend/pdepend": "*",
+        "nette/nette": "<2.2",
+        "dg/texy": "<v2.5"
     }
 }
