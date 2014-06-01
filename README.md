@@ -14,8 +14,17 @@ spindle/view
 
 エスケープなどの機能はありません。
 
+インストールには[composer](https://getcomposer.org/)が使えます。
+
 ```sh
-$ composer require spindle/view:*
+$ composer require "spindle/view:*"
+```
+
+バージョン1.0.2より、GitHubのzip-archiveには最小限のソースコードのみ含まれるようにしています。
+testやexampleが必要な場合はこのリポジトリを参照するか、--prefer-sourceオプションを使ってください。
+
+```sh
+$ composer require "spindle/view:*" --prefer-source
 ```
 
 使い方
