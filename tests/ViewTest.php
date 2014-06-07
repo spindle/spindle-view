@@ -3,7 +3,7 @@ namespace Spindle\View\Tests;
 
 use Spindle\View;
 
-class ViewTest extends TestCase
+class ViewTest extends \PHPUnit_Framework_TestCase
 {
     private $view;
     private $fullpath;
