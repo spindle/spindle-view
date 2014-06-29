@@ -20,5 +20,17 @@
         "pdepend/pdepend": "*",
         "nette/nette": "<2.2",
         "dg/texy": "<v2.5"
+    },
+    "archive": {
+        "exclude": [
+            "tests/",
+            "builds/",
+            "node_modules/",
+            "gulpfile.js",
+            "apigen.neon",
+            "phpunit.xml.dist",
+            "phpunit.xml",
+            "package.json"
+        ]
     }
 }
