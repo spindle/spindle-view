@@ -4,7 +4,7 @@
 .scrutinizer.yml export-ignore
 phpunit.xml.dist export-ignore
 package.json     export-ignore
-Gruntfile.coffee export-ignore
+gulpfile.js      export-ignore
 apigen.neon      export-ignore
 builds/          export-ignore
 tests/           export-ignore
