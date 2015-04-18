@@ -10,9 +10,9 @@ spindle/view
 [![License](https://poser.pugx.org/spindle/view/license.png)](https://packagist.org/packages/spindle/view)
 
 素のPHPをテンプレートエンジンとして使う際、レイアウト構造を実現するライブラリです。
-一つのクラスだけの非常に小さなライブラリですが、"継承"機能をほぼ網羅しています。
+1つのクラスだけの非常に小さなライブラリですが、"継承"機能をほぼ網羅しています。
 
-エスケープなどの機能はありません。
+自動エスケープなどの機能はありませんが、最低限のエスケープ機能はhelperとして実装してあります。
 
 インストールには[composer](https://getcomposer.org/)が使えます。
 
@@ -39,12 +39,12 @@ $titleと$mainを埋めるとHTMLの文字列が完成します。
 ```php
 <html>
 <head>
- <title><?php echo $title ?></title>
+ <title><?= $title ?></title>
 </head>
 <body>
- <h1><?php echo $title ?></h1>
+ <h1><?= $title ?></h1>
  <div class="main">
-  <?php echo $main ?> 
+  <?= $main ?> 
  </div>
 </body>
 </html>
@@ -88,19 +88,19 @@ $view->assign(compact('title', 'data'));
 ```
 
 一方、受け取る側のテンプレートファイルでは、変数は展開されています。
-`$title`とか`$data`で参照できます。
+`$title`や`$data`で参照できます。
 `$this->title`や`$this->data`でも同じものが取れます。
 thisを付ける書き方は冗長ですが、変数の書き換えを行った際に、挙動に違いが出ます。
 詳しくはレイアウトの項で説明します。
 
 ```php
 <!-- 同じ意味 -->
-<title><?php echo $title ?></title>
-<title><?php echo $this->title ?></title>
+<title><?= $title ?></title>
+<title><?= $this->title ?></title>
 
 <ul>
 <?php foreach ($data as $i): ?>
- <li><?php echo $i ?></li>
+ <li><?= $i ?></li>
 <?php endforeach ?>
 </ul>
 ```
@@ -113,8 +113,8 @@ thisを付ける書き方は冗長ですが、変数の書き換えを行った�
 
 #### 1-2. ビュー変数のスコープ
 
-ビュー変数はローカル変数です。
-テンプレートファイルの中で適当に変数を作っても、その場限りであり、グローバル空間を汚染しません。
+ビュースクリプトは関数内で評価されるため、変数のスコープはローカルです。
+テンプレートファイルの中で適当に変数を作ったり書き換えたりしても、その場限りであり、グローバル空間を汚染しません。
 
 
 #### 1-3. テンプレートファイルの探索パス
@@ -143,7 +143,7 @@ template
 そしてlayout.phtmlが以下のように書いてあったとすると、
 ```php
 <div>
-<?php echo $this->content() ?>
+<?= $this->content() ?>
 </div>
 ```
 
