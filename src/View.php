@@ -23,7 +23,7 @@ class View implements \IteratorAggregate
     /**
      * @param string $fileName 描画したいテンプレートのファイル名を指定します
      * @param string $basePath テンプレートの探索基準パスです。相対パスも指定できます。指定しなければinclude_pathから探索します。
-     * @param ArrayObject $arr
+     * @param ArrayObject $arr view変数の引き継ぎ元です。内部用なので通常は使う必要はありません。
      */
     function __construct($fileName, $basePath='', ArrayObject $arr=null)
     {
@@ -144,13 +144,15 @@ class View implements \IteratorAggregate
 
     /**
      * テンプレートファイルを描画して文字列にして返します
+     * テンプレート内では$EでHTMLエスケープでき、
+     * <?= $E('<script>') ?> と <?= htmlspecialchars('<script>') ?> が等価です。
+     *
      * @return string
      */
     function render()
     {
-        foreach ($this->_storage as ${"\x00key"} => ${"\x00val"}) {
-            $${"\x00key"} = ${"\x00val"};
-        }
+        $E = get_class($this) . '::h';
+        extract((array)$this->_storage, \EXTR_OVERWRITE);
         ob_start();
         include (string)$this;
         $html = ob_get_clean();
@@ -170,6 +172,7 @@ class View implements \IteratorAggregate
 
     /**
      * @internal
+     * @param string $content
      */
     protected function setContent($content)
     {
@@ -218,5 +221,91 @@ class View implements \IteratorAggregate
             $this->_storage
         );
         return $partial->render();
+    }
+
+    /**
+     * htmlspecialchars()のエイリアスです。
+     *
+     * @param string $rawStr 
+     * @param int $mode
+     * @param string $charset 文字コードです。指定しなければdefault_charsetの値を使用します。
+     * @return string
+     */
+    static function h($rawStr, $mode=\ENT_QUOTES, $charset=null)
+    {
+        static $solvedCharset = null;
+        if (!$solvedCharset || $charset) {
+            $solvedCharset = (string)$charset ?: ini_get('default_charset') ?: 'UTF-8';
+        }
+        return \htmlspecialchars($rawStr, $mode, $solvedCharset);
+    }
+
+    /**
+     * metaタグ群を出力するためのヘルパー関数です。
+     * <?= self::meta($meta) ?>
+     *
+     * @example
+     *  <pre>
+     *   $meta = [
+     *     'charset' => 'utf8',
+     *     'http-equiv' => [
+     *       'X-UA-Compatible' => 'IE=edge',
+     *       'Content-Type' => 'text/html; charset=UTF-8',
+     *     ],
+     *     'name' => [
+     *       'keyword' => 'hoge,fuga,muga',
+     *       'description' => 'hogehoge',
+     *       'twitter:title' => 'Mountain sunset',
+     *     ],
+     *     'property' => [
+     *       'og:title' => 'foooooo',
+     *       'og:description' => 'hogehoge',
+     *       'og:image' => [
+     *         'http://hoge.com/hoge1.jpg',
+     *         'http://hoge.com/hoge2.jpg',
+     *       ],
+     *     ],
+     *   ];
+     *  </pre>
+     *
+     * @param array|Traversable $meta metaタグの定義。
+     * @param boolean $isXhtml trueを指定すると、タグがXHTML形式になります。
+     * @param boolean $escape  falseを指定すると、HTMLエスケープを行わなくなります。
+     * @return string
+     */
+    static function meta($meta, $isXhtml=false, $escape=true)
+    {
+        if (!is_array($meta) && !is_object($meta)) {
+            throw new InvalidArgumentException('$meta should be Traversable or array. ' . gettype($meta). ' passed.');
+        }
+
+        $html = [];
+
+        $TAGEND = $isXhtml ? ' />' : '>';
+        $escape = (bool)$escape;
+
+        foreach ($meta as $attr => $defs) {
+            $attr = $escape ? static::h($attr, \ENT_COMPAT) : $attr;
+
+            if (is_array($defs) || is_object($defs)) {
+                foreach ($defs as $label => $val) {
+                    $label = $escape ? static::h($label, \ENT_COMPAT) : $label;
+                    if (is_array($val) || is_object($val)) {
+                        foreach ($val as $v) {
+                            $v = $escape ? static::h($v, \ENT_COMPAT) : $v;
+                            $html[] = '<meta ' . $attr . '="' . $label . '" content="' . $v . '"' . $TAGEND;
+                        }
+                    } else {
+                        $val = $escape ? static::h($val, \ENT_COMPAT) : $val;
+                        $html[] = '<meta ' . $attr . '="' . $label . '" content="' . $val . '"' . $TAGEND;
+                    }
+                }
+            } else {
+                $defs = $escape ? static::h($defs, \ENT_COMPAT) : $defs;
+                $html[] = '<meta ' . $attr . '="' . $defs . '"' . $TAGEND;
+            }
+        }
+
+        return implode(PHP_EOL, $html);
     }
 }
