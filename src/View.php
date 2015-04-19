@@ -25,7 +25,7 @@ class View implements \IteratorAggregate
      * @param string $basePath テンプレートの探索基準パスです。相対パスも指定できます。指定しなければinclude_pathから探索します。
      * @param ArrayObject $arr view変数の引き継ぎ元です。内部用なので通常は使う必要はありません。
      */
-    function __construct($fileName, $basePath='', ArrayObject $arr=null)
+    public function __construct($fileName, $basePath='', ArrayObject $arr=null)
     {
         $this->_storage = $arr ?: new ArrayObject(array(), ArrayObject::ARRAY_AS_PROPS);
         $this->_fileName = trim($fileName, \DIRECTORY_SEPARATOR);
@@ -36,7 +36,7 @@ class View implements \IteratorAggregate
      * このクラスはforeach可能です
      * @return \ArrayIterator
      */
-    function getIterator()
+    public function getIterator()
     {
         return $this->_storage->getIterator();
     }
@@ -45,7 +45,7 @@ class View implements \IteratorAggregate
      * @param string|int $name
      * @return mixed
      */
-    function __get($name)
+    public function __get($name)
     {
         return $this->_storage[$name];
     }
@@ -54,7 +54,7 @@ class View implements \IteratorAggregate
      * @param string|int $name
      * @param mixed $value
      */
-    function __set($name, $value)
+    public function __set($name, $value)
     {
         $this->_storage[$name] = $value;
     }
@@ -63,7 +63,7 @@ class View implements \IteratorAggregate
      * @param string|int $name
      * @return bool
      */
-    function __isset($name)
+    public function __isset($name)
     {
         return isset($this->_storage[$name]);
     }
@@ -72,7 +72,7 @@ class View implements \IteratorAggregate
      * 描画するスクリプトファイルのパスを返します。
      * @return string
      */
-    function __toString()
+    public function __toString()
     {
         if ($this->_basePath) {
             return $this->_basePath . \DIRECTORY_SEPARATOR . $this->_fileName;
@@ -85,7 +85,7 @@ class View implements \IteratorAggregate
      * セットされたview 変数を配列化して返します
      * @return array
      */
-    function toArray()
+    public function toArray()
     {
         return (array)$this->_storage;
     }
@@ -94,7 +94,7 @@ class View implements \IteratorAggregate
      * 配列で一気にview変数をセットします
      * @param array|\Traversable $array
      */
-    function assign($array)
+    public function assign($array)
     {
         if (!is_array($array) && !($array instanceof \Traversable)) {
             throw new \InvalidArgumentException('$array must be array or Traversable.');
@@ -109,7 +109,7 @@ class View implements \IteratorAggregate
      * @param string $name
      * @param array $array
      */
-    function append($name, $array)
+    public function append($name, $array)
     {
         $this->_merge($name, (array)$array, true);
     }
@@ -118,7 +118,7 @@ class View implements \IteratorAggregate
      * @param string $name
      * @param array $array
      */
-    function prepend($name, $array)
+    public function prepend($name, $array)
     {
         $this->_merge($name, (array)$array, false);
     }
@@ -149,7 +149,7 @@ class View implements \IteratorAggregate
      *
      * @return string
      */
-    function render()
+    public function render()
     {
         $E = get_class($this) . '::h';
         extract((array)$this->_storage, \EXTR_OVERWRITE);
@@ -183,7 +183,7 @@ class View implements \IteratorAggregate
      * 子テンプレートの描画結果を文字列として返します
      * @return string
      */
-    function content()
+    public function content()
     {
         return $this->_content;
     }
@@ -193,7 +193,7 @@ class View implements \IteratorAggregate
      * レイアウトは__construct()で指定した基準パスと同じパスから探索します。
      * @param string $layoutFileName
      */
-    function setLayout($layoutFileName)
+    public function setLayout($layoutFileName)
     {
         $this->_layoutFileName = $layoutFileName;
     }
@@ -202,7 +202,7 @@ class View implements \IteratorAggregate
      * 現在セットされているレイアウトファイル名を返します
      * @return string
      */
-    function getLayout()
+    public function getLayout()
     {
         return $this->_layoutFileName;
     }
@@ -213,7 +213,7 @@ class View implements \IteratorAggregate
      * @param string $partialFileName
      * @return string
      */
-    function partial($partialFileName)
+    public function partial($partialFileName)
     {
         $partial = new static(
             $partialFileName,
@@ -231,7 +231,7 @@ class View implements \IteratorAggregate
      * @param string $charset 文字コードです。指定しなければdefault_charsetの値を使用します。
      * @return string
      */
-    static function h($rawStr, $mode=\ENT_QUOTES, $charset=null)
+    public static function h($rawStr, $mode=\ENT_QUOTES, $charset=null)
     {
         static $solvedCharset = null;
         if (!$solvedCharset || !empty($charset)) {
@@ -273,7 +273,7 @@ class View implements \IteratorAggregate
      * @param boolean $escape  falseを指定すると、HTMLエスケープを行わなくなります。
      * @return string
      */
-    static function meta($meta, $isXhtml=false, $escape=true)
+    public static function meta($meta, $isXhtml=false, $escape=true)
     {
         if (!is_array($meta) && !is_object($meta)) {
             throw new InvalidArgumentException('$meta should be Traversable or array. ' . gettype($meta). ' passed.');
