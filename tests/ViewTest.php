@@ -135,4 +135,34 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             $view->render()
         );
     }
+
+    /**
+     * @test
+     */
+    function escape()
+    {
+        self::assertEquals('&lt;script&gt;', View::h('<script>'));
+    }
+
+    /**
+     * @test
+     */
+    function meta()
+    {
+        $view = new View('template.phtml', __DIR__ . '/../example/07_meta/');
+
+        self::assertEquals(
+            file_get_contents(__DIR__ . '/../example/07_meta/result.html'),
+            $view->render()
+        );
+    }
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
+    function metaInvalid()
+    {
+        View::meta(123);
+    }
 }
