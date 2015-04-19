@@ -275,8 +275,8 @@ class View implements \IteratorAggregate
      */
     public static function meta($meta, $isXhtml=false, $escape=true)
     {
-        if (!is_array($meta) && !is_object($meta)) {
-            throw new InvalidArgumentException('$meta should be Traversable or array. ' . gettype($meta). ' passed.');
+        if (!is_array($meta) && !$meta instanceof \Traversable) {
+            throw new \InvalidArgumentException('$meta should be Traversable or array. type error: ' . gettype($meta));
         }
 
         $html = array();
@@ -287,22 +287,26 @@ class View implements \IteratorAggregate
         foreach ($meta as $attr => $defs) {
             $attr = $escape ? static::h($attr, \ENT_COMPAT) : $attr;
 
-            if (is_array($defs) || is_object($defs)) {
-                foreach ($defs as $label => $val) {
-                    $label = $escape ? static::h($label, \ENT_COMPAT) : $label;
-                    if (is_array($val) || is_object($val)) {
-                        foreach ($val as $v) {
-                            $html[] = self::_generateMeta($attr, $label, $TAGEND, $escape, $v);
-                        }
-                    } else {
-                        $html[] = self::_generateMeta($attr, $label, $TAGEND, $escape, $val);
-                    }
-                }
-            } else {
+            if (is_scalar($defs)) {
                 $html[] = self::_generateMeta($attr, $defs, $TAGEND, $escape);
+                continue;
+            }
+
+            foreach ($defs as $label => $val) {
+                $label = $escape ? static::h($label, \ENT_COMPAT) : $label;
+
+                if (is_scalar($val)) {
+                    $html[] = self::_generateMeta($attr, $label, $TAGEND, $escape, $val);
+                    continue;
+                }
+
+                foreach ($val as $v) {
+                    $html[] = self::_generateMeta($attr, $label, $TAGEND, $escape, $v);
+                }
             }
         }
 
+        sort($html, \SORT_STRING);
         return implode(PHP_EOL, $html);
     }
 
