@@ -234,7 +234,7 @@ class View implements \IteratorAggregate
     static function h($rawStr, $mode=\ENT_QUOTES, $charset=null)
     {
         static $solvedCharset = null;
-        if (!$solvedCharset || $charset) {
+        if (!$solvedCharset || !empty($charset)) {
             $solvedCharset = (string)$charset ?: ini_get('default_charset') ?: 'UTF-8';
         }
         return \htmlspecialchars($rawStr, $mode, $solvedCharset);
@@ -299,7 +299,7 @@ class View implements \IteratorAggregate
                     }
                 }
             } else {
-                $html[] = self::_generateMeta($attr, $label, $TAGEND, $escape);
+                $html[] = self::_generateMeta($attr, $defs, $TAGEND, $escape);
             }
         }
 
