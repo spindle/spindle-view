@@ -5,6 +5,8 @@
 $meta['charset'] = 'UTF-8';
 $meta['property']['og:title'] = 'example 07';
 $meta['property']['og:description'] = 'example template';
+$meta['property']['og:image'] = (array)$meta['property']['og:image'];
+$meta['property']['og:image'][] = 'http://example.com/img2.jpg';
 $meta['name']['twitter:title'] = 'example 07';
 $this->meta = $meta;
 ?>
