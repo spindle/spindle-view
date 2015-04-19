@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<?php
+$meta['property']['og:title'] = 'example 07';
+$meta['property']['og:description'] = 'example template';
+$meta['name']['twitter:title'] = 'example 07';
+$this->meta = $meta;
+?>
+<?php echo $this->meta($meta) ?> 
+ <title>example template</title>
+</head>
+<body>
+<?php echo $this->content() ?>
+</body>
+</html>
