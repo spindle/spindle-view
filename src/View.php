@@ -280,44 +280,49 @@ class View implements \IteratorAggregate
         }
 
         $html = array();
-
-        $TAGEND = $isXhtml ? ' />' : '>';
-        $escape = (bool)$escape;
-
         foreach ($meta as $attr => $defs) {
-            $attr = $escape ? static::h($attr, \ENT_COMPAT) : $attr;
-
             if (is_scalar($defs)) {
-                $html[] = self::_generateMeta($attr, $defs, $TAGEND, $escape);
+                $html[] = array('meta', $attr => $defs);
                 continue;
             }
 
             foreach ($defs as $label => $val) {
-                $label = $escape ? static::h($label, \ENT_COMPAT) : $label;
-
                 if (is_scalar($val)) {
-                    $html[] = self::_generateMeta($attr, $label, $TAGEND, $escape, $val);
+                    $html[] = array('meta', $attr => $label, 'content' => $val);
                     continue;
                 }
 
                 foreach ($val as $v) {
-                    $html[] = self::_generateMeta($attr, $label, $TAGEND, $escape, $v);
+                    $html[] = array('meta', $attr => $label, 'content' => $v);
                 }
             }
         }
 
-        sort($html, \SORT_STRING);
-        return implode(PHP_EOL, $html);
+        $metatags = array();
+        foreach ($html as $def) {
+            $metatags[] = self::_generateTag($def, $isXhtml, $escape);
+        }
+
+        sort($metatags, \SORT_STRING);
+        return implode(PHP_EOL, $metatags);
     }
 
-    private static function _generateMeta($type, $val, $TAGEND, $escape, $content=null)
+    private static function _generateTag(array $def, $isXhtml=false, $escape=true)
     {
-        if ($content) {
-            $content = $escape ? static::h($content, \ENT_COMPAT) : $content;
-            return '<meta ' . $type . '="' . $val . '" content="' . $content . '"' . $TAGEND;
+        $tag = $def[0];
+        unset($def[0]);
+
+        $html = array();
+        if ($escape) {
+            foreach ($def as $key => $val) {
+                $html[] = $key . '="' . static::h($val, \ENT_COMPAT) . '"';
+            }
         } else {
-            $val = $escape ? static::h($val, \ENT_COMPAT) : $val;
-            return '<meta ' . $type . '="' . $val . '"' . $TAGEND;
+            foreach ($def as $key => $val) {
+                $html[] = $key . '="' . $val . '"';
+            }
         }
+
+        return "<$tag " . implode(' ', $html) . ($isXhtml ? ' />' : '>');
     }
 }

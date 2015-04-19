@@ -155,6 +155,11 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             file_get_contents(__DIR__ . '/../example/07_meta/result.html'),
             $view->render()
         );
+
+        // no escape
+        $meta = array('hoge' => '<');
+
+        self::assertEquals('<meta hoge="<">', View::meta($meta, false, false));
     }
 
     /**
