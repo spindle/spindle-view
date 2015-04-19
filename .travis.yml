@@ -9,5 +9,5 @@ install:
   - composer install --no-dev
 
 after_script:
-  - wget https://scrutinizer-ci.com/ocular.phar
+  - wget http://fresh.packagist.jp/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover clover.xml
