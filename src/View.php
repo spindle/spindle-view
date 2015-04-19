@@ -292,20 +292,28 @@ class View implements \IteratorAggregate
                     $label = $escape ? static::h($label, \ENT_COMPAT) : $label;
                     if (is_array($val) || is_object($val)) {
                         foreach ($val as $v) {
-                            $v = $escape ? static::h($v, \ENT_COMPAT) : $v;
-                            $html[] = '<meta ' . $attr . '="' . $label . '" content="' . $v . '"' . $TAGEND;
+                            $html[] = self::_generateMeta($attr, $label, $TAGEND, $escape, $v);
                         }
                     } else {
-                        $val = $escape ? static::h($val, \ENT_COMPAT) : $val;
-                        $html[] = '<meta ' . $attr . '="' . $label . '" content="' . $val . '"' . $TAGEND;
+                        $html[] = self::_generateMeta($attr, $label, $TAGEND, $escape, $val);
                     }
                 }
             } else {
-                $defs = $escape ? static::h($defs, \ENT_COMPAT) : $defs;
-                $html[] = '<meta ' . $attr . '="' . $defs . '"' . $TAGEND;
+                $html[] = self::_generateMeta($attr, $label, $TAGEND, $escape);
             }
         }
 
         return implode(PHP_EOL, $html);
+    }
+
+    private static function _generateMeta($type, $val, $TAGEND, $escape, $content=null)
+    {
+        if ($content) {
+            $content = $escape ? static::h($content, \ENT_COMPAT) : $content;
+            return '<meta ' . $type . '="' . $val . '" content="' . $content . '"' . $TAGEND;
+        } else {
+            $val = $escape ? static::h($val, \ENT_COMPAT) : $val;
+            return '<meta ' . $type . '="' . $val . '"' . $TAGEND;
+        }
     }
 }
