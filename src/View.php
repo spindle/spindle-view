@@ -279,7 +279,7 @@ class View implements \IteratorAggregate
             throw new InvalidArgumentException('$meta should be Traversable or array. ' . gettype($meta). ' passed.');
         }
 
-        $html = [];
+        $html = array();
 
         $TAGEND = $isXhtml ? ' />' : '>';
         $escape = (bool)$escape;
